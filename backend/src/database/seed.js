@@ -1,22 +1,18 @@
-/**
- * seed.js
- * Populates the database with initial Settings data.
- *
- * Run this ONCE after setting up the backend:
- *   node src/database/seed.js
- *
- * It is safe to run multiple times — it clears existing settings first.
- * Categories and Quotes are created via the Admin Panel, not seeded here.
- */
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+import path from "path";
+import { fileURLToPath } from "url";
 
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-const path = require("path");
+// ─── IMPORT SCHEMAS ───────────────────────────────────────────────────────────
+// Adjust this path if your Setting model is located somewhere else!
+import Setting from "../models/Setting.js";
+
+// Recreate CJS __dirname safely in ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Load environment variables from backend/.env
 dotenv.config({ path: path.resolve(__dirname, "../../.env") });
-
-const Setting = require("../models/Setting");
 
 // ─── SEED DATA ────────────────────────────────────────────────────────────────
 
@@ -85,11 +81,13 @@ const seed = async () => {
       console.log(`   ${s.key.padEnd(35)} = ${valueDisplay}`);
     });
 
-    console.log("\n✅ Database seeding complete!");
+    console.log("\n\x1b[32m✅ Database seeding complete!\x1b[0m");
     console.log(
       "ℹ  Create categories and quotes via the Admin Panel at /admin\n",
     );
 
+    // Close the mongoose link connection pool cleanly
+    await mongoose.disconnect();
     process.exit(0);
   } catch (error) {
     console.error("\n❌ Seeding failed:", error.message);
@@ -97,4 +95,7 @@ const seed = async () => {
   }
 };
 
+// ─── EXECUTE SCRIPT IMMEDIATELY ───────────────────────────────────────────────
 seed();
+
+export default seed;
