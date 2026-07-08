@@ -1,15 +1,6 @@
-/**
- * Category.js
- * Mongoose schema and model for quote categories.
- *
- * Key design decisions:
- *  - name is unique — no duplicate category names allowed
- *  - isActive enables soft delete — never hard-delete categories because
- *    existing quotes still reference them by categoryId
- *  - createdBy references the admin user who created the category
- */
+"use strict";
 
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const categorySchema = new mongoose.Schema(
   {
@@ -52,5 +43,5 @@ const categorySchema = new mongoose.Schema(
 // isActive is queried frequently when building the category list for users
 categorySchema.index({ isActive: 1 });
 
-// const Category = mongoose.model("Category", categorySchema);
+const Category = mongoose.model("Category", categorySchema);
 export default Category;

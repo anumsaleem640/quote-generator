@@ -1,31 +1,5 @@
 "use strict";
 
-/**
- * rateLimiters.js
- * Endpoint-specific rate limiting middleware.
- *
- * ── Why not one global rate limit? ────────────────────────────────────────
- * A single 100 req/15min limit protects against basic abuse but allows
- * 100 login attempts in 15 minutes — still brute-forceable for short passwords.
- * Endpoint-specific limits apply the right constraint to the right endpoint:
- *
- *   /api/auth/login     → 10 attempts per 15 min per IP (very strict)
- *   /api/auth/register  → 5  registrations per hour per IP
- *   /api/auth/refresh   → 30 per 15 min per IP (legitimate apps refresh often)
- *   All other /api/*    → 150 per 15 min per IP (generous for real usage)
- *
- * ── skipSuccessfulRequests ────────────────────────────────────────────────
- * On the login limiter, successful logins don't count against the limit.
- * This means a user who mistypes their password 9 times, then succeeds,
- * still has one attempt before hitting the limit rather than being blocked
- * after a burst of typos. Only FAILED requests consume the budget.
- *
- * ── standardHeaders + legacyHeaders ──────────────────────────────────────
- * standardHeaders: true  → sends RateLimit-Limit, RateLimit-Remaining,
- *                           RateLimit-Reset headers so clients know their budget
- * legacyHeaders: false   → removes deprecated X-RateLimit-* headers
- */
-
 import rateLimit from "express-rate-limit";
 
 // ── Auth: Login ────────────────────────────────────────────────────────────────

@@ -1,28 +1,5 @@
 "use strict";
 
-/**
- * app.js  (Phase 14 update)
- *
- * Changes from Phase 3:
- *  1. Removed the single global rate limiter on /api — replaced with
- *     endpoint-specific limiters imported from rateLimiters.js and applied
- *     directly on the route files that need them (see authRoutes.js).
- *     A general fallback limiter still protects all other /api/* routes.
- *
- *  2. Helmet is now configured with an explicit Content Security Policy (CSP).
- *     The default Helmet call sets useful headers but leaves CSP disabled.
- *     An explicit CSP blocks the most common XSS injection vectors.
- *
- *  3. Additional security headers beyond Helmet's defaults:
- *     - Permissions-Policy: disables browser APIs the app doesn't use
- *     - X-Content-Type-Options, Referrer-Policy: already in Helmet defaults,
- *       but documented here for visibility
- *
- *  4. express-mongo-sanitize is now configured with replaceWith: '_' so
- *     operators in field names are replaced rather than stripped, making
- *     the sanitization visible in logs during debugging.
- */
-
 import compression from "compression";
 import cors from "cors";
 import express from "express";

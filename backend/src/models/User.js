@@ -1,16 +1,7 @@
-/**
- * User.js
- * Mongoose schema and model for application users.
- *
- * Key design decisions:
- *  - passwordHash uses select: false — never returned in queries by default
- *  - username is auto-generated from email (never shown to the user)
- *  - selectedCategories stores an array of Category ObjectIds (many-to-many)
- *  - timestamps: true auto-manages createdAt and updatedAt
- */
+"use strict";
 
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
+import bcrypt from "bcryptjs";
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
@@ -166,5 +157,21 @@ userSchema.statics.generateUsername = async function (email) {
   return username;
 };
 
-// const User = mongoose.model("User", userSchema);
+// ── Pre-save hook: hash password before writing to DB ──────────────────────
+// Runs automatically whenever user.save() is called.
+// isModified('passwordHash') is true for new users and password changes.
+// It is FALSE when other fields (lastLoginAt, selectedCategories) are saved,
+// preventing the password from being double-hashed.
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("passwordHash")) return next();
+  try {
+    const salt = await bcrypt.genSalt(12);
+    this.passwordHash = await bcrypt.hash(this.passwordHash, salt);
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
+const User = mongoose.model("User", userSchema);
 export default User;
