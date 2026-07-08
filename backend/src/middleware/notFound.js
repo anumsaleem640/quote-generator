@@ -1,12 +1,7 @@
 "use strict";
 
-// Import your custom Not Found UI template view
 import { generateNotFoundHtml } from "../screens/NotFoundScreen.js";
 
-/**
- * notFound.js
- * Catches unmapped HTTP paths and automatically serves a clean HTML or JSON error context.
- */
 export const notFound = (req, res, next) => {
   const method = req.method;
   const requestedPath = req.originalUrl;

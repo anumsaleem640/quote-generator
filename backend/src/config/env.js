@@ -32,7 +32,7 @@ const validateEnv = () => {
   // This helps catch misconfigured environments before they cause subtle bugs.
   if (process.env.NODE_ENV === "development") {
     const OPTIONAL_DEFAULTS = {
-      PORT: "5000",
+      PORT: "5550",
       NODE_ENV: "development",
       CLIENT_URL: "http://localhost:5173",
       JWT_EXPIRES_IN: "7d",

@@ -1,20 +1,6 @@
-/**
- * Subscription.js
- * Mongoose schema and model for user subscription records.
- *
- * Key design decisions:
- *  - Designed for future payment gateway integration (Stripe, PayPal, Razorpay)
- *  - endDate: null means "no expiry" — used for free plans and manual upgrades
- *  - Payment fields are present but default to neutral values
- *  - isValid() instance method encapsulates the expiry logic in one place
- *
- * Why a separate collection instead of embedding in User?
- *  Users may have a subscription history (upgraded, cancelled, re-subscribed).
- *  Embedding would make the User document grow unboundedly. A separate collection
- *  keeps the history clean and the User document lightweight.
- */
+"use strict";
 
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const subscriptionSchema = new mongoose.Schema(
   {

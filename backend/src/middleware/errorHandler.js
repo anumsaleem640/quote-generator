@@ -1,23 +1,6 @@
 "use strict";
 
-/**
- * errorHandler.js
- * Global error handling middleware — must be the LAST app.use() in app.js.
- *
- * Express recognises error handlers by their 4-parameter signature: (err, req, res, next).
- * Any middleware that calls next(err) will skip all normal middleware and land here.
- *
- * This handler normalises six categories of error into consistent ApiError instances:
- *   1. Our own ApiError instances (from controllers and services)
- *   2. Mongoose CastError    — invalid ObjectId format in a URL param
- *   3. Mongoose code 11000   — duplicate key (unique index violation)
- *   4. Mongoose ValidationError — schema validation failure
- *   5. JsonWebTokenError     — malformed JWT token
- *   6. TokenExpiredError     — JWT that has passed its expiry time
- *   7. Everything else       — unexpected/programming errors
- */
-
-import ApiError from "../utils/ApiError.js";
+import apiError from "../utils/apiError.js";
 
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
@@ -35,7 +18,7 @@ const errorHandler = (err, req, res, next) => {
   // Triggered when a route parameter like /api/quotes/:id receives a value
   // that cannot be cast to a MongoDB ObjectId (e.g. "/api/quotes/not-an-id").
   if (err.name === "CastError") {
-    error = new ApiError(`Invalid ID format: '${err.value}'`, 400);
+    error = new apiError(`Invalid ID format: '${err.value}'`, 400);
   }
 
   // ── Mongoose: Duplicate Key ────────────────────────────────────────────────
@@ -45,7 +28,7 @@ const errorHandler = (err, req, res, next) => {
   if (err.code === 11000) {
     const field = Object.keys(err.keyValue || {})[0] || "field";
     const value = err.keyValue ? err.keyValue[field] : "";
-    error = new ApiError(
+    error = new apiError(
       `'${value}' is already registered for field '${field}'`,
       409,
     );
@@ -57,13 +40,13 @@ const errorHandler = (err, req, res, next) => {
   // Collect all validation messages and join them into one readable string.
   if (err.name === "ValidationError") {
     const messages = Object.values(err.errors).map((e) => e.message);
-    error = new ApiError(messages.join(" | "), 400);
+    error = new apiError(messages.join(" | "), 400);
   }
 
   // ── JWT: Malformed token ────────────────────────────────────────────────────
   // Triggered when the token cannot be decoded — tampered or incorrectly formed.
   if (err.name === "JsonWebTokenError") {
-    error = new ApiError(
+    error = new apiError(
       "Invalid or malformed token. Please log in again.",
       401,
     );
@@ -72,7 +55,7 @@ const errorHandler = (err, req, res, next) => {
   // ── JWT: Expired token ──────────────────────────────────────────────────────
   // Triggered when a valid token is presented after its exp timestamp has passed.
   if (err.name === "TokenExpiredError") {
-    error = new ApiError("Your session has expired. Please log in again.", 401);
+    error = new apiError("Your session has expired. Please log in again.", 401);
   }
 
   // ── Build and send the response ────────────────────────────────────────────

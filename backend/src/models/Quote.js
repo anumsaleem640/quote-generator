@@ -1,16 +1,6 @@
-/**
- * Quote.js
- * Mongoose schema and model for individual quotes.
- *
- * Key design decisions:
- *  - categoryId is required — every quote must belong to a category
- *  - The compound index on { categoryId, isActive } is the most critical
- *    index in the project — it powers the core "get random quote" query
- *  - author defaults to 'Unknown' rather than being required
- *  - isActive enables soft delete, same pattern as Category
- */
+"use strict";
 
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const quoteSchema = new mongoose.Schema(
   {

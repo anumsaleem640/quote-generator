@@ -1,25 +1,6 @@
 "use strict";
 
-/**
- * ApiResponse.js
- * Centralises all API response formatting.
- *
- * Why does this exist?
- * Without it, every controller independently decides the response shape.
- * One might return { ok: true, result: {} }, another { data: {} }, another
- * { success: 1 }. The frontend and mobile app then need to handle all these
- * variations. ApiResponse enforces a single contract:
- *
- *   Success:  { "success": true,  "message": "...", "data": {...} }
- *   Created:  { "success": true,  "message": "...", "data": {...} }   (201)
- *   Error:    { "success": false, "message": "...", "errors": [...] } (handled by errorHandler)
- *
- * Usage in a controller:
- *   return ApiResponse.success(res, 'Quote fetched', { quote });
- *   return ApiResponse.created(res, 'User registered', { user });
- */
-
-class ApiResponse {
+class apiResponse {
   /**
    * 200 OK — general success response
    * @param {object} res - Express response object
@@ -53,7 +34,7 @@ class ApiResponse {
    * @param {object} pagination - { page, limit, total, totalPages }
    *
    * Example:
-   *   ApiResponse.paginated(res, 'Quotes fetched', quotes, {
+   *   apiResponse.paginated(res, 'Quotes fetched', quotes, {
    *     page: 1, limit: 10, total: 247, totalPages: 25
    *   });
    */
@@ -67,5 +48,4 @@ class ApiResponse {
   }
 }
 
-// module.exports = ApiResponse;
-export default ApiResponse;
+export default apiResponse;

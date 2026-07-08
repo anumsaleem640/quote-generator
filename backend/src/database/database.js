@@ -1,8 +1,4 @@
-/**
- * database.js
- * MongoDB connection using Mongoose.
- * This function is called once when the server starts.
- */
+"use strict";
 
 import mongoose from "mongoose";
 
