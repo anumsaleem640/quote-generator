@@ -66,4 +66,7 @@ export const getCategoryById = async (id) => {
   return category;
 };
 
-export default { getAllCategories, getCategoryById };
+export default {
+  getAllCategories,
+  getCategoryById,
+};

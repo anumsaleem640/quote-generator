@@ -1,10 +1,12 @@
 "use strict";
 
-import router from "express";
+import { Router } from "express";
 import { getCount, getRandom } from "../controllers/quoteController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
-router.get("/random", protect, getRandom);
+const router = Router();
+
 router.get("/count", protect, getCount);
+router.get("/random", protect, getRandom);
 
 export default router;

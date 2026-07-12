@@ -18,7 +18,7 @@ import {
  * passwordHash has select:false in the schema, so it is usually absent
  * already — this is a defensive double-removal.
  */
-const sanitizeUser = (user) => {
+export const sanitizeUser = (user) => {
   const obj = user.toObject ? user.toObject() : { ...user };
   delete obj.passwordHash;
   delete obj.__v;
@@ -28,7 +28,7 @@ const sanitizeUser = (user) => {
 /**
  * Build the token pair + sanitized user object returned by register and login.
  */
-const buildAuthResponse = (tokenPayload, userDocument) => {
+export const buildAuthResponse = (tokenPayload, userDocument) => {
   const accessToken = generateAccessToken(tokenPayload);
   const refreshToken = generateRefreshToken({ userId: tokenPayload.userId });
   return {
@@ -42,7 +42,7 @@ const buildAuthResponse = (tokenPayload, userDocument) => {
  * Return `count` random active category IDs using MongoDB's $sample aggregation.
  * Falls back to [] gracefully when no categories exist (fresh database).
  */
-const getRandomCategoryIds = async (count = 2) => {
+export const getRandomCategoryIds = async (count = 2) => {
   const categories = await Category.aggregate([
     { $match: { isActive: true } },
     { $sample: { size: count } },
@@ -52,7 +52,7 @@ const getRandomCategoryIds = async (count = 2) => {
 
 // ── Register ───────────────────────────────────────────────────────────────────
 
-const register = async ({ firstName, lastName, email, password }) => {
+export const register = async ({ firstName, lastName, email, password }) => {
   // 1. Email uniqueness check — gives a clear error before Mongoose tries to
   //    save and triggers a less readable duplicate-key exception.
   const existing = await User.findOne({ email: email.toLowerCase().trim() });
@@ -115,7 +115,7 @@ const register = async ({ firstName, lastName, email, password }) => {
 
 // ── Login ──────────────────────────────────────────────────────────────────────
 
-const login = async ({ email, password }) => {
+export const login = async ({ email, password }) => {
   // ── Admin credentials check ──────────────────────────────────────────────
   // Admin is not stored in the database. Credentials live in environment variables.
   // When they match, skip the DB entirely and issue an admin-scoped JWT.
@@ -169,7 +169,7 @@ const login = async ({ email, password }) => {
 
 // ── Refresh Access Token ───────────────────────────────────────────────────────
 
-const refreshAccessToken = async ({ refreshToken }) => {
+export const refreshAccessToken = async ({ refreshToken }) => {
   if (!refreshToken) {
     throw apiError.unauthorized("No refresh token provided.");
   }
@@ -210,7 +210,7 @@ const refreshAccessToken = async ({ refreshToken }) => {
 
 // ── Get Current User ───────────────────────────────────────────────────────────
 
-const getMe = async (userId) => {
+export const getMe = async (userId) => {
   // Admin is not in the database — return a minimal object.
   if (userId === "admin") {
     return { role: "admin", firstName: "Admin" };
@@ -228,4 +228,12 @@ const getMe = async (userId) => {
   return sanitizeUser(user);
 };
 
-export default { register, login, refreshAccessToken, getMe };
+export default {
+  sanitizeUser,
+  buildAuthResponse,
+  getRandomCategoryIds,
+  register,
+  login,
+  refreshAccessToken,
+  getMe,
+};

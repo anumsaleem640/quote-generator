@@ -1,8 +1,8 @@
 "use strict";
 
-import apiError from "../utils/apiError";
+import apiError from "../utils/apiError.js";
 
-const adminOnly = (req, res, next) => {
+export const adminOnly = (req, res, next) => {
   if (!req.user || req.user.role !== "admin") {
     return next(
       apiError.forbidden("Admin access required. This incident may be logged."),
