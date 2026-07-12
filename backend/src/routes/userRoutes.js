@@ -1,5 +1,5 @@
 "use strict";
-import router from "express";
+import { Router } from "express";
 import {
   getProfile,
   updateCategories,
@@ -11,6 +11,8 @@ import {
   updateCategoriesValidation,
   updateSettingsValidation,
 } from "../validators/userValidators.js";
+
+const router = Router();
 
 router.get("/profile", protect, getProfile);
 

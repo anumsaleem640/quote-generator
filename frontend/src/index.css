@@ -1,0 +1,189 @@
+/* ─── Brand tokens ───────────────────────────────────────────────────────────── */
+:root {
+  --brand-primary: #6366f1; /* indigo-500 */
+  --brand-primary-dark: #4f46e5; /* indigo-600 */
+  --brand-secondary: #06b6d4; /* cyan-500   */
+  --brand-dark: #0f172a; /* slate-900  */
+  --brand-muted: #64748b; /* slate-500  */
+}
+
+/* ─── Global ─────────────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font-family:
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
+* {
+  box-sizing: border-box;
+}
+
+/* ─── Bootstrap primary colour override ─────────────────────────────────────── */
+.btn-primary {
+  --bs-btn-bg: var(--brand-primary);
+  --bs-btn-border-color: var(--brand-primary);
+  --bs-btn-hover-bg: var(--brand-primary-dark);
+  --bs-btn-hover-border-color: var(--brand-primary-dark);
+  --bs-btn-active-bg: var(--brand-primary-dark);
+}
+
+/* ─── Hero ───────────────────────────────────────────────────────────────────── */
+.hero-section {
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 55%, #312e81 100%);
+  min-height: 100vh;
+  color: #ffffff;
+  padding-top: 80px; /* offset for the fixed navbar */
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #818cf8 0%, #67e8f9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Demo quote card ────────────────────────────────────────────────────────── */
+.quote-card {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.25rem;
+  transition: opacity 0.4s ease;
+}
+.quote-card.fade-out {
+  opacity: 0;
+}
+.quote-card.fade-in {
+  opacity: 1;
+}
+
+.quote-mark {
+  font-size: 5rem;
+  line-height: 1;
+  color: var(--brand-primary);
+  opacity: 0.4;
+  font-family: Georgia, serif;
+  user-select: none;
+}
+
+/* ─── Section spacing ────────────────────────────────────────────────────────── */
+.section-padding {
+  padding: 5rem 0;
+}
+
+/* ─── Feature card ───────────────────────────────────────────────────────────── */
+.feature-card {
+  border: none;
+  border-radius: 1rem;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(99, 102, 241, 0.14);
+}
+
+.feature-icon {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(
+    135deg,
+    var(--brand-primary),
+    var(--brand-secondary)
+  );
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin: 0 auto 1.25rem;
+}
+
+/* ─── Testimonial card ───────────────────────────────────────────────────────── */
+.testimonial-card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+  position: relative;
+}
+.testimonial-card::before {
+  content: "\201C";
+  position: absolute;
+  top: -0.6rem;
+  left: 1.5rem;
+  font-size: 4rem;
+  color: var(--brand-primary);
+  opacity: 0.2;
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+
+/* ─── Pricing card ───────────────────────────────────────────────────────────── */
+.pricing-card {
+  border-radius: 1.25rem;
+  border: 2px solid transparent;
+  transition:
+    border-color 0.25s ease,
+    transform 0.25s ease;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+.pricing-card:hover {
+  transform: translateY(-4px);
+}
+.pricing-card.featured {
+  border-color: var(--brand-primary);
+  box-shadow: 0 12px 40px rgba(99, 102, 241, 0.18);
+}
+
+.pricing-badge {
+  background: linear-gradient(
+    90deg,
+    var(--brand-primary),
+    var(--brand-secondary)
+  );
+  color: #fff;
+  font-size: 0.72rem;
+  padding: 0.25rem 0.8rem;
+  border-radius: 2rem;
+  font-weight: 600;
+}
+
+.price-amount {
+  font-size: 3.25rem;
+  font-weight: 800;
+  color: var(--brand-dark);
+  line-height: 1;
+}
+
+/* ─── FAQ accordion ──────────────────────────────────────────────────────────── */
+.accordion-button:not(.collapsed) {
+  color: var(--brand-primary);
+  background-color: rgba(99, 102, 241, 0.05);
+  box-shadow: none;
+}
+.accordion-button:focus {
+  box-shadow: none;
+}
+
+/* ─── Navbar ─────────────────────────────────────────────────────────────────── */
+.navbar {
+  transition: box-shadow 0.3s ease;
+}
+.navbar.scrolled {
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.18);
+}
+
+/* ─── Footer ─────────────────────────────────────────────────────────────────── */
+.footer-section {
+  background-color: var(--brand-dark);
+  color: rgba(255, 255, 255, 0.65);
+}
+.footer-section a:hover {
+  color: #fff !important;
+}

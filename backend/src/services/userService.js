@@ -86,7 +86,7 @@ export const updateSelectedCategories = async (userId, categoryIds) => {
  * runValidators: true applies the Mongoose enum check as a safety net
  * on top of the express-validator rule that already ran in the route.
  */
-const updateRefreshInterval = async (userId, quoteRefreshInterval) => {
+export const updateRefreshInterval = async (userId, quoteRefreshInterval) => {
   const updated = await User.findByIdAndUpdate(
     userId,
     { quoteRefreshInterval },
@@ -114,6 +114,7 @@ export const getUserProfile = async (userId) => {
 };
 
 export default {
+  sanitizeUser,
   updateSelectedCategories,
   updateRefreshInterval,
   getUserProfile,

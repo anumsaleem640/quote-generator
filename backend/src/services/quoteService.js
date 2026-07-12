@@ -113,4 +113,7 @@ export const getQuoteCount = async (userId) => {
   return { count };
 };
 
-export default { getRandomQuote, getQuoteCount };
+export default {
+  getRandomQuote,
+  getQuoteCount,
+};

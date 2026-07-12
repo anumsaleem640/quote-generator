@@ -59,4 +59,4 @@ export const updateSettings = async (req, res, next) => {
   }
 };
 
-export default { getProfile, updateCategories, updateSettings };
+// export default { getProfile, updateCategories, updateSettings };

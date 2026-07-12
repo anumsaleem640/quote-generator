@@ -1,23 +1,24 @@
 "use strict";
 
 import express from "express";
-// import adminRoutes from "./adminRoutes.js";
+import { generateDashboardHtml } from "../screens/DashboardScreen.js";
+
+import adminRoutes from "./adminRoutes.js";
 import authRoutes from "./authRoutes.js";
 import categoryRoutes from "./categoryRoutes.js";
 import healthRoutes from "./healthRoutes.js";
-// import quoteRoutes from "./quoteRoutes.js";
-// import userRoutes from "./userRoutes.js";
-import { generateDashboardHtml } from "../screens/DashboardScreen.js";
+import quoteRoutes from "./quoteRoutes.js";
+import userRoutes from "./userRoutes.js";
 
 // Initialize the router object correctly
 const router = express.Router();
 
-router.use("/health", healthRoutes);
+router.use("/admin", adminRoutes);
 router.use("/auth", authRoutes);
-// router.use("/quotes", quoteRoutes);
 router.use("/categories", categoryRoutes);
-// router.use("/users", userRoutes);
-// router.use("/admin", adminRoutes);
+router.use("/health", healthRoutes);
+router.use("/quotes", quoteRoutes);
+router.use("/users", userRoutes);
 
 router.get("/", (req, res) => {
   // Collect state statistics variables

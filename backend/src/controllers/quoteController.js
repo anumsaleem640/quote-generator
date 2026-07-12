@@ -40,4 +40,4 @@ export const getCount = async (req, res, next) => {
   }
 };
 
-export default { getRandom, getCount };
+// export default { getRandom, getCount };
